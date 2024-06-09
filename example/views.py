@@ -4,6 +4,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        user = User.objects.create_user(username=username, password=password, email=email)
+        login(request, user)
+        return redirect('index')
+    return render(request, 'example/register.html')
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
